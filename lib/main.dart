@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 
-void main() {
+import 'package:product_show_case/core/services/service_locator.dart';
+import 'package:product_show_case/core/utils/db/shared_preference_helper.dart';
+import 'package:product_show_case/core/utils/network_connections.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferenceHelper.getInstance();
+  setupServiceLocator();
+  NetworkConnection.instance;
+  FlavorConfig(
+    name: "PROD",
+    variables: {
+      "baseUrl": "https://developer.wordpress.org",
+    },
+  );
   runApp(const MyApp());
 }
 
