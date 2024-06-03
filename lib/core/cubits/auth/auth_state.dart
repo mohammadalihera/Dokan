@@ -22,3 +22,17 @@ final class RegistrationFailedState extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+final class LoginSuccessState extends AuthState {
+  String message;
+  LoginSuccessState({required this.message});
+  @override
+  List<Object?> get props => [message];
+}
+
+final class LoginFailedState extends AuthState {
+  String message;
+  LoginFailedState({required this.message});
+  @override
+  List<Object?> get props => [message];
+}

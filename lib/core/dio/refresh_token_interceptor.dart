@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
+import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 import 'package:product_show_case/core/services/navigation_service.dart';
 import 'package:product_show_case/core/services/service_locator.dart';
 
@@ -45,11 +47,11 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
   @override
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      String refreshToken = SharedPreferenceHelper.getRefreshToken() ?? '';
+      String refreshToken = SharedPreferenceHelper.getUserToken() ?? '';
       bool refreshTokenExpired = isTokenExpired(refreshToken);
 
       if (refreshTokenExpired) {
-        // TODO: We need to logout the use here
+        BlocProvider.of<AuthCubit>(_navigationService.navigatorKey.currentContext!).logout();
       } else {
         final updatedToken = await updateToken(refreshToken: refreshToken);
         if (updatedToken != null) {
@@ -77,9 +79,7 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
       if (response.statusCode >= 201 && response.statusCode <= 205) {
         final data = jsonDecode(response.body);
         String updatedToken = data['data']['token'];
-        String updatedRefreshToken = data['data']['refresh_token'];
         await SharedPreferenceHelper.setUserToken(updatedToken);
-        await SharedPreferenceHelper.setRefreshToken(updatedRefreshToken);
         return updatedToken;
       }
       return null;
