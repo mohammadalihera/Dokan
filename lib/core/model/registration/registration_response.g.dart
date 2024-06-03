@@ -9,15 +9,13 @@ part of 'registration_response.dart';
 RegistrationResponse _$RegistrationResponseFromJson(
         Map<String, dynamic> json) =>
     RegistrationResponse(
-      status: json['status'] as bool?,
-      statusCode: (json['statusCode'] as num?)?.toInt(),
-      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : RegistrationData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$RegistrationResponseToJson(
         RegistrationResponse instance) =>
     <String, dynamic>{
-      'status': instance.status,
-      'statusCode': instance.statusCode,
-      'message': instance.message,
+      'data': instance.data,
     };

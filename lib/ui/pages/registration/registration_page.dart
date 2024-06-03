@@ -39,7 +39,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is RegistrationSuccessState) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Success')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
         } else if (state is RegistrationFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Failed')));
         }

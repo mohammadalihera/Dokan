@@ -1,10 +1,11 @@
 import 'package:product_show_case/core/dao/auth_dao.dart';
+import 'package:product_show_case/core/model/registration/registration_data.dart';
 import 'package:product_show_case/core/model/registration/registration_response.dart';
 
 class AuthRepository {
   AuthDAO _authDAO = AuthDAO();
 
-  Future<RegistrationResponse?> registration({
+  Future<RegistrationData?> registration({
     required String name,
     required String email,
     required String password,

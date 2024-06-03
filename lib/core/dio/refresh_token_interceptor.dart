@@ -68,7 +68,7 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
       var response =
           await http.post(Uri.parse(FlavorConfig.instance.variables['baseUrl'] + '/api/account/refresh-token'),
               headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
+                'Content-Type': 'application/json; application/x-www-form-urlencoded',
               },
               body: jsonEncode(<String, String>{"refresh_token": refreshToken}));
 
