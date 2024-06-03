@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String buttonName;
   final VoidCallback onTap;
-  const CustomButton({super.key, required this.buttonName, required this.onTap});
+  final isLoading;
+  const CustomButton({super.key, required this.buttonName, required this.onTap, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,20 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         onPressed: onTap,
-        child: Text(buttonName),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(buttonName),
+            if (isLoading)
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                height: 30,
+                width: 30,
+                child: const CircularProgressIndicator(
+                    strokeWidth: 1.5, color: Colors.blue, backgroundColor: Colors.white),
+              )
+          ],
+        ),
       ),
     );
   }

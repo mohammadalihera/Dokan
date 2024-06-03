@@ -31,6 +31,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final confirmPasswordFocusNode = FocusNode();
 
   final _navigationService = serviceLocator<NavigationService>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
       listener: (context, state) {
         if (state is RegistrationSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+          setState(() {
+            isLoading = false;
+          });
+          _navigationService.navigateToAndClearAll(RouteTo.loginPage);
         } else if (state is RegistrationFailedState) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Failed')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+          setState(() {
+            isLoading = false;
+          });
         }
       },
       child: SafeArea(
@@ -139,17 +147,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       const SizedBox(height: 50),
                       CustomButton(
                         buttonName: 'Sign Up',
+                        isLoading: isLoading,
                         onTap: () async {
                           if (_formKey.currentState!.validate() &&
                               passwordController.text.isNotEmpty &&
                               nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty) {
-                            context.read<AuthCubit>().registration(
+                              emailController.text.isNotEmpty &&
+                              !isLoading) {
+                            setState(() {
+                              isLoading = true;
+                            });
+
+                            await context.read<AuthCubit>().registration(
                                   password: passwordController.text,
                                   name: nameController.text,
                                   email: emailController.text,
+                                  confirmPass: confirmPasswordController.text,
                                 );
-                            print('validate');
                           }
                         },
                       ),

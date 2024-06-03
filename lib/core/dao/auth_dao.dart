@@ -20,7 +20,6 @@ class AuthDAO {
     try {
       final response =
           await _dio.post(_appUrlReg, data: jsonMap, options: Options(contentType: Headers.jsonContentType));
-      print(response);
       final responseModel = RegistrationData.fromJson(response.data);
       return responseModel;
     } catch (error) {

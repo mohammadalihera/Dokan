@@ -59,6 +59,8 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
           }
         }
       }
+    } else {
+      return handler.resolve(err.response!);
     }
     return handler.next(err);
   }
