@@ -17,6 +17,7 @@ class Themes {
       centerTitle: true,
       backgroundColor: lightScaffoldBgColor,
     ),
+    hintColor: hintColor,
     fontFamily: roboto,
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(

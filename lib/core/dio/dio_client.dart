@@ -16,6 +16,6 @@ class DioClient {
       ..options.connectTimeout
       ..interceptors.clear()
       ..interceptors.add(RefreshTokenInterceptor(dio))
-      ..interceptors.add(LogInterceptor(responseBody: false));
+      ..interceptors.add(LogInterceptor(responseBody: true));
   }
 }

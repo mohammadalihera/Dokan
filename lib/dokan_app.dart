@@ -1,58 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:product_show_case/core/cubits/app/app_cubit.dart';
+import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
+import 'package:product_show_case/core/services/navigation_service.dart';
+import 'package:product_show_case/core/services/service_locator.dart';
+import 'package:product_show_case/ui/pages/home/home_page.dart';
+import 'package:product_show_case/ui/router.dart';
 
-class DokanApp extends StatefulWidget {
-  const DokanApp({super.key, required this.title});
+import 'ui/pages/login/login_page.dart';
+import 'ui/theme/thems.dart';
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<DokanApp> createState() => _DokanAppState();
-}
-
-class _DokanAppState extends State<DokanApp> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class DokanApp extends StatelessWidget {
+  const DokanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AppCubit>(create: (context) => AppCubit()),
+        BlocProvider<AuthCubit>(create: (context) => AuthCubit(appCubit: context.read<AppCubit>())),
+      ],
+      child: BlocBuilder<AppCubit, AppState>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: serviceLocator<NavigationService>().navigatorKey,
+            title: 'Dokan',
+            theme: Themes.jhLight,
+            onGenerateRoute: RouteTo.generateRoute,
+            home: state is LoadedAppState && state.isLoggedIn ? const HomePage() : const LoginPage(),
+          );
+        },
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
