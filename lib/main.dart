@@ -14,7 +14,7 @@ void main() async {
   FlavorConfig(
     name: "PROD",
     variables: {
-      "baseUrl": "https://developer.wordpress.org",
+      "baseUrl": "http://apptest.dokandemo.com/",
     },
   );
   runApp(const DokanApp());

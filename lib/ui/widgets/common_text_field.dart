@@ -56,6 +56,7 @@ class CustomTextField extends StatelessWidget {
               valueListenable: _obscureTextNotifier,
               builder: (BuildContext context, bool isRemmebered, Widget? child) {
                 return TextFormField(
+                  controller: controller,
                   focusNode: currentFocusNode,
                   autofocus: true,
                   obscureText: isObscureText ? _obscureTextNotifier.value : false,
