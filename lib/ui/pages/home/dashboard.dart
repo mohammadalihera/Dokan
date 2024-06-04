@@ -179,8 +179,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         hideAnimationController: _hideBottomBarAnimationController,
         shadow: const BoxShadow(
           offset: Offset(0, 1),
-          blurRadius: 12,
-          spreadRadius: 0.5,
+          blurRadius: 5,
+          spreadRadius: 0.4,
           color: hintColor,
         ),
       ),

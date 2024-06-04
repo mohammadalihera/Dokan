@@ -13,4 +13,5 @@ class ImagePath {
   static String home = "assets/img/home.svg";
   static String list = "assets/img/list.svg";
   static String cart = "assets/img/cart.svg";
+  static String demoProfile = "assets/img/demo_profile.png";
 }
