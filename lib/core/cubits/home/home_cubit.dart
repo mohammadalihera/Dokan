@@ -60,4 +60,33 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeLoadedState(productList: const []));
     }
   }
+
+  void getSortedProduct({
+    bool highLow = false,
+    bool lowHigh = false,
+  }) async {
+    try {
+      final currentState = state;
+      ProductDAO productDAO = ProductDAO();
+      emit(HomeLoadingState());
+      if (currentState is HomeLoadedState) {
+        List<Product> products = productDAO.filter(
+          products: currentState.productList,
+          lowHigh: lowHigh,
+          highLow: highLow,
+        );
+        currentState.copyWith(productList: products);
+      } else {}
+      Products? products = await productRepository.getProductList();
+      List<Product>? productList = products?.products?.toList();
+      productList = productDAO.filter(
+        products: productList ?? [],
+        lowHigh: lowHigh,
+        highLow: highLow,
+      );
+      emit(HomeLoadedState(productList: productList ?? []));
+    } catch (e) {
+      emit(HomeLoadedState(productList: const []));
+    }
+  }
 }

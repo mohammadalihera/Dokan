@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:product_show_case/core/cubits/home/home_cubit.dart';
 
 import 'package:product_show_case/ui/shared/image_path.dart';
 import 'package:product_show_case/ui/theme/colors.dart';
@@ -8,9 +10,11 @@ import 'package:product_show_case/ui/widgets/common_image_view.dart';
 import 'filter_bottom_sheet_widget.dart';
 
 class FilterBarWidget extends StatelessWidget {
-  const FilterBarWidget({
+  FilterBarWidget({
     super.key,
   });
+
+  final ValueNotifier<String> sortValue = ValueNotifier('Sort By');
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +62,22 @@ class FilterBarWidget extends StatelessWidget {
               PopupMenuButton<String>(
                 itemBuilder: (BuildContext context) {
                   return [
-                    const PopupMenuItem<String>(
-                      value: 'sort',
-                      child: Text('Sort by'),
+                    PopupMenuItem<String>(
+                      value: 'High>Low',
+                      child: const Text('Price High>Low'),
+                      onTap: () {
+                        sortValue.value = 'High>Low';
+                        context.read<HomeCubit>().getSortedProduct(highLow: true);
+                      },
                     ),
-                    // Add more menu items as needed
+                    PopupMenuItem<String>(
+                      value: 'Low>High',
+                      child: const Text('Price Low>High'),
+                      onTap: () {
+                        sortValue.value = 'Low>High';
+                        context.read<HomeCubit>().getSortedProduct(lowHigh: true);
+                      },
+                    ),
                   ];
                 },
                 onSelected: (String choice) {
@@ -70,10 +85,14 @@ class FilterBarWidget extends StatelessWidget {
                 },
 
                 child: Row(children: [
-                  Text(
-                    'Sort by',
-                    style: normalTextStyle.copyWith(color: grey, fontSize: 16),
-                  ),
+                  ValueListenableBuilder<String>(
+                      valueListenable: sortValue,
+                      builder: (context, value, _) {
+                        return Text(
+                          sortValue.value,
+                          style: normalTextStyle.copyWith(color: grey, fontSize: 16),
+                        );
+                      }),
                   const Icon(Icons.keyboard_arrow_down, color: grey)
                 ]), // "More" icon
               ),

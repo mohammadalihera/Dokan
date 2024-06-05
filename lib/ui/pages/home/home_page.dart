@@ -45,8 +45,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(children: [
-          const FilterBarWidget(),
-          // const SizedBox(height: 10),
+          FilterBarWidget(),
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is HomeLoadedState) {
