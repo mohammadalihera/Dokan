@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:product_show_case/core/cubits/home/home_cubit.dart';
 import 'package:product_show_case/ui/theme/colors.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
 import 'package:product_show_case/ui/theme/thems.dart';
@@ -63,6 +65,7 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             onChanged: (newValue) {
               setState(() {
                 newest = newValue ?? newest;
+                if (newest) oldest = false;
               });
             },
           ),
@@ -72,6 +75,9 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             onChanged: (newValue) {
               setState(() {
                 oldest = newValue ?? oldest;
+                if (oldest) {
+                  newest = false;
+                }
               });
             },
           ),
@@ -81,6 +87,9 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             onChanged: (newValue) {
               setState(() {
                 priceLowHigh = newValue ?? priceLowHigh;
+                if (priceLowHigh) {
+                  priceHighLow = false;
+                }
               });
             },
           ),
@@ -90,6 +99,9 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             onChanged: (newValue) {
               setState(() {
                 priceHighLow = newValue ?? priceHighLow;
+                if (priceHighLow) {
+                  priceLowHigh = false;
+                }
               });
             },
           ),
@@ -114,7 +126,13 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
                 child: ElevatedButton(
                   style: Themes.filledButtonStyle(secondaryColor),
                   onPressed: () {
-                    // Handle apply button action
+                    context.read<HomeCubit>().getFilterProducts(
+                          newProduct: newest,
+                          oldProduct: oldest,
+                          highLow: priceHighLow,
+                          lowHigh: priceLowHigh,
+                          bestSale: bestSelling,
+                        );
                     Navigator.of(context).pop();
                   },
                   child: const Text('Apply'),

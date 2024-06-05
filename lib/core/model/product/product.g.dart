@@ -51,6 +51,13 @@ class _$ProductSerializer implements StructuredSerializer<Product> {
         ..add('total_sales')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.is_new;
+    if (value != null) {
+      result
+        ..add('is_new')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.average_rating;
     if (value != null) {
       result
@@ -112,6 +119,10 @@ class _$ProductSerializer implements StructuredSerializer<Product> {
           result.in_stock = serializers.deserialize(value,
               specifiedType: const FullType(bool))! as bool;
           break;
+        case 'is_new':
+          result.is_new = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
         case 'average_rating':
           result.average_rating = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -151,6 +162,8 @@ class _$Product extends Product {
   @override
   final bool in_stock;
   @override
+  final bool? is_new;
+  @override
   final String? average_rating;
   @override
   final int rating_count;
@@ -169,6 +182,7 @@ class _$Product extends Product {
       this.sale_price,
       this.total_sales,
       required this.in_stock,
+      this.is_new,
       this.average_rating,
       required this.rating_count,
       this.images})
@@ -203,6 +217,7 @@ class _$Product extends Product {
         sale_price == other.sale_price &&
         total_sales == other.total_sales &&
         in_stock == other.in_stock &&
+        is_new == other.is_new &&
         average_rating == other.average_rating &&
         rating_count == other.rating_count &&
         images == other.images;
@@ -219,6 +234,7 @@ class _$Product extends Product {
     _$hash = $jc(_$hash, sale_price.hashCode);
     _$hash = $jc(_$hash, total_sales.hashCode);
     _$hash = $jc(_$hash, in_stock.hashCode);
+    _$hash = $jc(_$hash, is_new.hashCode);
     _$hash = $jc(_$hash, average_rating.hashCode);
     _$hash = $jc(_$hash, rating_count.hashCode);
     _$hash = $jc(_$hash, images.hashCode);
@@ -237,6 +253,7 @@ class _$Product extends Product {
           ..add('sale_price', sale_price)
           ..add('total_sales', total_sales)
           ..add('in_stock', in_stock)
+          ..add('is_new', is_new)
           ..add('average_rating', average_rating)
           ..add('rating_count', rating_count)
           ..add('images', images))
@@ -280,6 +297,10 @@ class ProductBuilder implements Builder<Product, ProductBuilder> {
   bool? get in_stock => _$this._in_stock;
   set in_stock(bool? in_stock) => _$this._in_stock = in_stock;
 
+  bool? _is_new;
+  bool? get is_new => _$this._is_new;
+  set is_new(bool? is_new) => _$this._is_new = is_new;
+
   String? _average_rating;
   String? get average_rating => _$this._average_rating;
   set average_rating(String? average_rating) =>
@@ -307,6 +328,7 @@ class ProductBuilder implements Builder<Product, ProductBuilder> {
       _sale_price = $v.sale_price;
       _total_sales = $v.total_sales;
       _in_stock = $v.in_stock;
+      _is_new = $v.is_new;
       _average_rating = $v.average_rating;
       _rating_count = $v.rating_count;
       _images = $v.images?.toBuilder();
@@ -347,6 +369,7 @@ class ProductBuilder implements Builder<Product, ProductBuilder> {
               total_sales: total_sales,
               in_stock: BuiltValueNullFieldError.checkNotNull(
                   in_stock, r'Product', 'in_stock'),
+              is_new: is_new,
               average_rating: average_rating,
               rating_count: BuiltValueNullFieldError.checkNotNull(
                   rating_count, r'Product', 'rating_count'),

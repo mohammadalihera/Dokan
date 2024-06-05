@@ -17,6 +17,7 @@ abstract class Product implements Built<Product, ProductBuilder> {
   String? get sale_price;
   int? get total_sales;
   bool get in_stock;
+  bool? get is_new;
   String? get average_rating;
   int get rating_count;
   BuiltList<ProductImage>? get images;
