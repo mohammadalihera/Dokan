@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:product_show_case/core/cubits/app/app_cubit.dart';
 import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
+import 'package:product_show_case/core/cubits/home/home_cubit.dart';
 import 'package:product_show_case/core/services/navigation_service.dart';
 import 'package:product_show_case/core/services/service_locator.dart';
 import 'package:product_show_case/ui/pages/home/dashboard.dart';
@@ -18,6 +20,7 @@ class DokanApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppCubit>(create: (context) => AppCubit()),
+        BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
         BlocProvider<AuthCubit>(create: (context) => AuthCubit(appCubit: context.read<AppCubit>())),
       ],
       child: BlocBuilder<AppCubit, AppState>(

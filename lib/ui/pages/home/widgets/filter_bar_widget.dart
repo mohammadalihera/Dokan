@@ -16,16 +16,16 @@ class FilterBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 3,
             blurRadius: 5,
-            offset: const Offset(0, 3), // Shadow position
+            offset: const Offset(2, 3), // Shadow position
           ),
         ],
       ),
