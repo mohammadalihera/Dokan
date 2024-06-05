@@ -8,6 +8,8 @@ import 'package:product_show_case/ui/shared/image_path.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
 import 'package:product_show_case/ui/widgets/common_image_view.dart';
 
+import 'widgets/shimmer/product_card_shimmer.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -65,8 +67,20 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else if (state is HomeLoadingState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Expanded(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.only(top: 10),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1 / 1.5,
+                    ),
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      return const ProductShimmerCard();
+                    },
+                  ),
                 );
               } else {
                 return const Center(
