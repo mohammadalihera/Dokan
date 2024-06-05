@@ -35,8 +35,8 @@ class AuthDAO {
     Map<String, dynamic> jsonMap = {"username": username, 'password': password};
 
     try {
-      final response =
-          await _dio.post(_appUrlLogin, data: jsonMap, options: Options(contentType: Headers.jsonContentType));
+      final response = await _dio.post(_appUrlLogin,
+          data: jsonMap, options: Options(contentType: 'application/x-www-form-urlencoded'));
       print(response);
       final responseModel = UserData.fromMap(response.data);
       return responseModel;

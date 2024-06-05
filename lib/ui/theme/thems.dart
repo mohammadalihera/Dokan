@@ -13,7 +13,7 @@ class Themes {
     primaryColor: primaryColor,
     cardColor: Colors.white,
     appBarTheme: AppBarTheme(
-      titleTextStyle: regularTextStyle.copyWith(color: darkGrey),
+      titleTextStyle: regularTextStyle.copyWith(color: lightAppBarColor),
       centerTitle: true,
       backgroundColor: lightScaffoldBgColor,
     ),
@@ -76,4 +76,27 @@ class Themes {
       ),
     ),
   );
+
+  static ButtonStyle borderButtonStyle() {
+    return ElevatedButton.styleFrom(
+      textStyle: regularTextStyle.copyWith(fontWeight: FontWeight.w300),
+      foregroundColor: hintColor,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0), // Border radius
+        side: const BorderSide(color: grey, width: 0.5), // Border color
+      ),
+    );
+  }
+
+  static ButtonStyle filledButtonStyle(Color color) {
+    return ElevatedButton.styleFrom(
+      textStyle: regularTextStyle,
+      foregroundColor: Colors.white, backgroundColor: color, // Text color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0), // Border radius
+        side: const BorderSide(color: Colors.grey), // Border color
+      ),
+    );
+  }
 }

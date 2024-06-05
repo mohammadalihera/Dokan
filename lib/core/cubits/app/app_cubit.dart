@@ -21,6 +21,7 @@ class AppCubit extends Cubit<AppState> {
       isLoggedIn = true;
       emit(LoadedAppState(
         isLoggedIn: isLoggedIn,
+        user: user,
       ));
       return;
     } else {

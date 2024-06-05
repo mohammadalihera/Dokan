@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             isLoading = false;
           });
-          _navigationService.navigateToAndClearAll(RouteTo.homePage);
+          _navigationService.navigateToAndClearAll(RouteTo.dashbaord);
         } else if (state is LoginFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           setState(() {

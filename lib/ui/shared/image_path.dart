@@ -7,4 +7,11 @@ class ImagePath {
   static String lock = "assets/img/lock.svg";
   static String user = "assets/img/user.svg";
   static String camera = "assets/img/camera.svg";
+  static String search = "assets/img/search.svg";
+  static String more = "assets/img/more.svg";
+  static String filter = "assets/img/filter.svg";
+  static String home = "assets/img/home.svg";
+  static String list = "assets/img/list.svg";
+  static String cart = "assets/img/cart.svg";
+  static String demoProfile = "assets/img/demo_profile.png";
 }
