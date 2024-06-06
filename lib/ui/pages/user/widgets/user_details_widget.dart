@@ -5,7 +5,7 @@ import 'package:product_show_case/core/cubits/app/app_cubit.dart';
 import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 import 'package:product_show_case/ui/widgets/index.dart';
 
-class UserDetailsWidget extends StatelessWidget {
+class UserDetailsWidget extends StatefulWidget {
   const UserDetailsWidget({
     super.key,
     required GlobalKey<FormState> formKey,
@@ -14,8 +14,10 @@ class UserDetailsWidget extends StatelessWidget {
     required this.addressController,
     required this.suiteController,
     required this.zipController,
+    required this.onCancel,
   }) : _formKey = formKey;
 
+  final VoidCallback onCancel;
   final GlobalKey<FormState> _formKey;
   final TextEditingController emailController;
   final TextEditingController nameController;
@@ -24,11 +26,18 @@ class UserDetailsWidget extends StatelessWidget {
   final TextEditingController zipController;
 
   @override
+  State<UserDetailsWidget> createState() => _UserDetailsWidgetState();
+}
+
+class _UserDetailsWidgetState extends State<UserDetailsWidget> {
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Form(
-        key: _formKey,
+        key: widget._formKey,
         child: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             if (state is LoadedAppState) {
@@ -36,44 +45,56 @@ class UserDetailsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BorderCustomTextField(
-                    controller: emailController,
+                    controller: widget.emailController,
                     hintText: state.user?.user_email ?? 'email',
                     label: 'Email',
                     readOnly: true,
                   ),
                   const SizedBox(height: 20),
                   BorderCustomTextField(
-                    controller: nameController,
+                    controller: widget.nameController,
                     hintText: state.user?.user_display_name ?? 'name',
                     label: 'Full Name',
                   ),
                   const SizedBox(height: 20),
                   BorderCustomTextField(
-                    controller: addressController,
+                    controller: widget.addressController,
                     hintText: '465 Nolan Causeway Suite 079',
                     label: 'Street Address',
                   ),
                   const SizedBox(height: 20),
                   BorderCustomTextField(
-                    controller: suiteController,
+                    controller: widget.suiteController,
                     hintText: 'Unit 512',
                     label: 'Apt, Suite, Bldg (optional)',
                   ),
                   const SizedBox(height: 20),
                   BorderCustomTextField(
-                    controller: zipController,
+                    controller: widget.zipController,
                     hintText: '77017',
                     label: 'Zip Code',
                   ),
                   const SizedBox(height: 40),
                   Row(
                     children: [
-                      const Expanded(child: CustomCancelButton()),
+                      Expanded(
+                          child: CustomCancelButton(
+                        onPressed: widget.onCancel,
+                      )),
                       const SizedBox(width: 10),
                       CustomSecondaryButton(
+                        isLoading: isLoading,
                         label: 'Save',
-                        onPressed: () {
-                          context.read<AuthCubit>().updateUser(name: nameController.text);
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+
+                          await context.read<AuthCubit>().updateUser(name: widget.nameController.text);
+
+                          setState(() {
+                            isLoading = false;
+                          });
                         },
                       )
                     ],

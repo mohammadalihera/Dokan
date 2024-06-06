@@ -6,10 +6,12 @@ import 'package:product_show_case/ui/theme/text_style.dart';
 class CustomSecondaryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
+  final bool isLoading;
   const CustomSecondaryButton({
     super.key,
     required this.onPressed,
     required this.label,
+    this.isLoading = false,
   });
 
   @override
@@ -28,8 +30,23 @@ class CustomSecondaryButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: onPressed,
-        child: Text(label),
+        onPressed: isLoading ? null : onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (!isLoading) Text(label),
+            if (isLoading)
+              const SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 1.5,
+                  backgroundColor: Colors.black,
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

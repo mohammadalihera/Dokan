@@ -22,6 +22,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   bool accountOpen = false;
+  String initialName = '';
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -35,6 +36,7 @@ class _UserPageState extends State<UserPage> {
     final appState = context.read<AppCubit>().state;
     if (appState is LoadedAppState) {
       nameController.text = '${appState.user?.first_name} ${appState.user?.last_name}';
+      initialName = '${appState.user?.first_name} ${appState.user?.last_name}';
     }
     super.initState();
   }
@@ -102,6 +104,12 @@ class _UserPageState extends State<UserPage> {
                         });
                       },
                       widget: UserDetailsWidget(
+                        onCancel: () {
+                          setState(() {
+                            accountOpen = false;
+                            nameController.text = initialName;
+                          });
+                        },
                         formKey: _formKey,
                         emailController: emailController,
                         nameController: nameController,
