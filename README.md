@@ -1,4 +1,4 @@
-# product_show_case
+# Dokan
 
 A new Flutter project.
 
