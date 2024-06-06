@@ -30,6 +30,7 @@ class DokanApp extends StatelessWidget {
             navigatorKey: serviceLocator<NavigationService>().navigatorKey,
             title: 'Dokan',
             theme: Themes.jhLight,
+            color: Colors.white,
             onGenerateRoute: RouteTo.generateRoute,
             home: state is LoadedAppState && state.isLoggedIn ? const Dashboard() : const LoginPage(),
           );
