@@ -109,16 +109,18 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (updateResponse != null) {
         UserData? userData = await SharedPreferenceHelper.getCurrentUser();
+
         UserData updatedUserData = UserData();
         updatedUserData = UserData.copyFrom(updateResponse);
-        print(updatedUserData);
         updatedUserData.user_display_name = '${updateResponse.first_name} ${updateResponse.last_name}';
         updatedUserData.user_nicename = updateResponse.first_name;
         updatedUserData.user_email = updateResponse.email;
         updatedUserData.token = userData?.token;
 
         await SharedPreferenceHelper.setCurrentUser(updatedUserData);
+
         appCubit.loadApp();
+
         emit(UpdateUserSuccessState(message: 'Update Success'));
       } else {
         emit(UpdateUserFailedState(message: 'Update Failed'));

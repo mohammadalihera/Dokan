@@ -18,19 +18,15 @@ class AppCubit extends Cubit<AppState> {
       UserData? user = await SharedPreferenceHelper.getCurrentUser();
 
       bool isLoggedIn = false;
+
       if (userToken != null && userToken.isNotEmpty && user != null) {
-        print(userToken);
         isLoggedIn = true;
-        emit(LoadedAppState(
-          isLoggedIn: isLoggedIn,
-          user: user,
-        ));
+
+        emit(LoadedAppState(isLoggedIn: isLoggedIn, user: user));
         return;
       } else {
         emit(LoadedAppState(isLoggedIn: isLoggedIn));
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 }
