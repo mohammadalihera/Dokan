@@ -103,11 +103,11 @@ class Themes {
   }
 
   static BoxShadow commonShadow() {
-    return const BoxShadow(
-      offset: Offset(0, 1),
+    return BoxShadow(
+      offset: const Offset(0, 2),
       blurRadius: 5,
       spreadRadius: 0.4,
-      color: hintColor,
+      color: hintColor.withOpacity(0.4),
     );
   }
 }

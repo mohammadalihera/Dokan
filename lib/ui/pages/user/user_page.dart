@@ -35,7 +35,7 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         title: Text(
           'My Account',
-          style: semiboldTextStyle.copyWith(fontSize: 20),
+          style: semiboldTextStyle.copyWith(fontSize: 24),
         ),
       ),
       body: SingleChildScrollView(
@@ -51,11 +51,11 @@ class _UserPageState extends State<UserPage> {
                     children: [
                       Text(
                         state.user?.user_display_name ?? 'N/A',
-                        style: semiboldTextStyle,
+                        style: boldTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 30),
                       ),
                       Text(
                         state.user?.user_email ?? 'N/A',
-                        style: normalTextStyle.copyWith(color: hintColor),
+                        style: regularTextStyle.copyWith(color: hintColor),
                       )
                     ],
                   );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:product_show_case/core/cubits/app/app_cubit.dart';
+import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 import 'package:product_show_case/ui/widgets/index.dart';
 
 class UserDetailsWidget extends StatelessWidget {
@@ -71,7 +72,12 @@ class UserDetailsWidget extends StatelessWidget {
                     children: [
                       const Expanded(child: CustomCancelButton()),
                       const SizedBox(width: 10),
-                      CustomSecondaryButton(label: 'Save', onPressed: () {})
+                      CustomSecondaryButton(
+                        label: 'Save',
+                        onPressed: () {
+                          context.read<AuthCubit>().updateUser(name: nameController.text);
+                        },
+                      )
                     ],
                   )
                 ],

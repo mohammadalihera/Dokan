@@ -18,6 +18,7 @@ class AppCubit extends Cubit<AppState> {
 
     bool isLoggedIn = false;
     if (userToken != null && userToken.isNotEmpty && user != null) {
+      print(userToken);
       isLoggedIn = true;
       emit(LoadedAppState(
         isLoggedIn: isLoggedIn,

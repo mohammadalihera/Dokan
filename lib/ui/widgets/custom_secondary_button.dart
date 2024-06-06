@@ -4,7 +4,7 @@ import 'package:product_show_case/ui/theme/colors.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
 
 class CustomSecondaryButton extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback onPressed;
   final String label;
   const CustomSecondaryButton({
     super.key,
@@ -28,7 +28,7 @@ class CustomSecondaryButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: onPressed(),
+        onPressed: onPressed,
         child: Text(label),
       ),
     );

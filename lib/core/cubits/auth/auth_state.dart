@@ -36,3 +36,17 @@ final class LoginFailedState extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+final class UpdateUserSuccessState extends AuthState {
+  String message;
+  UpdateUserSuccessState({required this.message});
+  @override
+  List<Object?> get props => [message];
+}
+
+final class UpdateUserFailedState extends AuthState {
+  String message;
+  UpdateUserFailedState({required this.message});
+  @override
+  List<Object?> get props => [message];
+}

@@ -14,6 +14,12 @@ class AuthRepository {
     return await _authDAO.registration(name: name, email: email, password: password);
   }
 
+  Future<UserData?> updateUser({
+    required String name,
+  }) async {
+    return await _authDAO.updateUser(name: name);
+  }
+
   Future<UserData?> login({
     required String username,
     required String password,

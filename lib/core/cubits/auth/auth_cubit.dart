@@ -90,4 +90,30 @@ class AuthCubit extends Cubit<AuthState> {
 
     _navigationService.navigateToAndClearAll(RouteTo.loginPage);
   }
+
+  Future<void> updateUser({
+    required String name,
+  }) async {
+    try {
+      bool hasConnection = await NetworkConnection.checkConnection();
+      if (hasConnection == false) {
+        emit(RegistrationFailedState(message: 'You Have No Internet Connection!'));
+        return;
+      }
+
+      UserData? updateResponse = await authRepository.updateUser(
+        name: name,
+      );
+
+      if (updateResponse != null) {
+        UserData? userData = await SharedPreferenceHelper.getCurrentUser();
+        userData.copy
+        emit(UpdateUserSuccessState(message: 'Update Success'));
+      } else {
+        emit(UpdateUserFailedState(message: 'Update Failed'));
+      }
+    } catch (e) {
+      emit(UpdateUserFailedState(message: 'Update Failed'));
+    }
+  }
 }
