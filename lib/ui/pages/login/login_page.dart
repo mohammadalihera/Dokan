@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 
+import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 import 'package:product_show_case/core/services/navigation_service.dart';
 import 'package:product_show_case/core/services/service_locator.dart';
 import 'package:product_show_case/core/utils/validate/validation.dart';

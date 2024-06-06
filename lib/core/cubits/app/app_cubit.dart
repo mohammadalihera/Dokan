@@ -13,19 +13,20 @@ class AppCubit extends Cubit<AppState> {
 
   void loadApp() async {
     emit(AppInitial());
-    String? userToken = SharedPreferenceHelper.getUserToken();
-    UserData? user = SharedPreferenceHelper.getCurrentUser();
+    try {
+      String? userToken = await SharedPreferenceHelper.getUserToken();
+      UserData? user = await SharedPreferenceHelper.getCurrentUser();
 
-    bool isLoggedIn = false;
-    if (userToken != null && userToken.isNotEmpty && user != null) {
-      isLoggedIn = true;
-      emit(LoadedAppState(
-        isLoggedIn: isLoggedIn,
-        user: user,
-      ));
-      return;
-    } else {
-      emit(LoadedAppState(isLoggedIn: isLoggedIn));
-    }
+      bool isLoggedIn = false;
+
+      if (userToken != null && userToken.isNotEmpty && user != null) {
+        isLoggedIn = true;
+
+        emit(LoadedAppState(isLoggedIn: isLoggedIn, user: user));
+        return;
+      } else {
+        emit(LoadedAppState(isLoggedIn: isLoggedIn));
+      }
+    } catch (_) {}
   }
 }

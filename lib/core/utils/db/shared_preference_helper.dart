@@ -5,7 +5,7 @@ class SharedPreferenceHelper {
   static SharedPreferenceHelper? _storageUtil;
   static SharedPreferences? _preferences;
   static const String _userToken = 'token';
-  static final String _currentUser = 'current_user';
+  static const String _currentUser = 'current_user';
 
   static Future<SharedPreferenceHelper?> getInstance() async {
     if (_storageUtil == null) {
@@ -34,11 +34,12 @@ class SharedPreferenceHelper {
 
   static Future<bool> setCurrentUser(UserData? user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
     String userJson = user != null ? user.toJson() : "";
     return prefs.setString(_currentUser, userJson);
   }
 
-  static UserData? getCurrentUser() {
+  static Future<UserData?> getCurrentUser() async {
     if (_preferences == null) return null;
     String? userJson = _preferences!.getString(_currentUser);
     return userJson != null && userJson.isNotEmpty ? UserData.fromJson(userJson) : null;

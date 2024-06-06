@@ -79,8 +79,8 @@ class Themes {
 
   static ButtonStyle borderButtonStyle() {
     return ElevatedButton.styleFrom(
-      textStyle: regularTextStyle.copyWith(fontWeight: FontWeight.w300),
-      foregroundColor: hintColor,
+      textStyle: regularTextStyle.copyWith(fontWeight: FontWeight.w400),
+      foregroundColor: darkGrey,
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0), // Border radius
@@ -92,11 +92,22 @@ class Themes {
   static ButtonStyle filledButtonStyle(Color color) {
     return ElevatedButton.styleFrom(
       textStyle: regularTextStyle,
-      foregroundColor: Colors.white, backgroundColor: color, // Text color
+      backgroundColor: secondaryColor, // Text color
+      foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0), // Border radius
-        side: const BorderSide(color: Colors.grey), // Border color
+        borderRadius: BorderRadius.circular(15.0),
+        // Border radius
+        // Border color
       ),
+    );
+  }
+
+  static BoxShadow commonShadow() {
+    return BoxShadow(
+      offset: const Offset(0, 2),
+      blurRadius: 5,
+      spreadRadius: 0.4,
+      color: hintColor.withOpacity(0.4),
     );
   }
 }

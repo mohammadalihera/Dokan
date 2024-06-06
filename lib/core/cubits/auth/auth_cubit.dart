@@ -75,6 +75,8 @@ class AuthCubit extends Cubit<AuthState> {
         await SharedPreferenceHelper.setUserToken(loginData.token);
         await SharedPreferenceHelper.setCurrentUser(loginData);
 
+        appCubit.loadApp();
+
         emit(LoginSuccessState(message: 'Login Success'));
       } else {
         emit(LoginFailedState(message: 'Login Failed'));
@@ -89,5 +91,42 @@ class AuthCubit extends Cubit<AuthState> {
     await SharedPreferenceHelper.setCurrentUser(null);
 
     _navigationService.navigateToAndClearAll(RouteTo.loginPage);
+  }
+
+  Future<void> updateUser({
+    required String name,
+  }) async {
+    try {
+      bool hasConnection = await NetworkConnection.checkConnection();
+      if (hasConnection == false) {
+        emit(RegistrationFailedState(message: 'You Have No Internet Connection!'));
+        return;
+      }
+
+      UserData? updateResponse = await authRepository.updateUser(
+        name: name,
+      );
+
+      if (updateResponse != null) {
+        UserData? userData = await SharedPreferenceHelper.getCurrentUser();
+
+        UserData updatedUserData = UserData();
+        updatedUserData = UserData.copyFrom(updateResponse);
+        updatedUserData.user_display_name = '${updateResponse.first_name} ${updateResponse.last_name}';
+        updatedUserData.user_nicename = updateResponse.first_name;
+        updatedUserData.user_email = updateResponse.email;
+        updatedUserData.token = userData?.token;
+
+        await SharedPreferenceHelper.setCurrentUser(updatedUserData);
+
+        appCubit.loadApp();
+
+        emit(UpdateUserSuccessState(message: 'Update Success'));
+      } else {
+        emit(UpdateUserFailedState(message: 'Update Failed'));
+      }
+    } catch (e) {
+      emit(UpdateUserFailedState(message: 'Update Failed'));
+    }
   }
 }
