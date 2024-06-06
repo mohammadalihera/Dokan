@@ -74,7 +74,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (loginData != null && loginData.token != null) {
         await SharedPreferenceHelper.setUserToken(loginData.token);
         await SharedPreferenceHelper.setCurrentUser(loginData);
-        
+
         appCubit.loadApp();
 
         emit(LoginSuccessState(message: 'Login Success'));
@@ -117,7 +117,7 @@ class AuthCubit extends Cubit<AuthState> {
         updatedUserData.user_email = updateResponse.email;
         updatedUserData.token = userData?.token;
 
-        SharedPreferenceHelper.setCurrentUser(updatedUserData);
+        await SharedPreferenceHelper.setCurrentUser(updatedUserData);
         appCubit.loadApp();
         emit(UpdateUserSuccessState(message: 'Update Success'));
       } else {
