@@ -29,7 +29,7 @@ class UserData {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'token': token ?? "",
-      'id': id ?? "",
+      'id': id,
       'user_email': user_email ?? "",
       'email': email ?? "",
       'user_nicename': user_nicename ?? "",
@@ -55,6 +55,23 @@ class UserData {
   String toJson() => json.encode(toMap());
 
   factory UserData.fromJson(String source) => UserData.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  static UserData copyFrom(
+    UserData user,
+  ) {
+    UserData userData = UserData();
+
+    userData.id = user.id;
+    userData.token = user.token;
+    userData.email = user.email != "" || user.email != null ? user.email : user.user_email;
+    userData.user_email = user.user_email != "" || user.user_email != null ? user.user_email : user.email;
+    userData.first_name = user.first_name;
+    userData.last_name = user.last_name;
+    userData.user_display_name = user.user_display_name;
+    userData.user_nicename = user.user_nicename;
+
+    return userData;
+  }
 
   @override
   String toString() =>

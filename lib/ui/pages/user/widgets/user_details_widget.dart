@@ -32,9 +32,6 @@ class UserDetailsWidget extends StatelessWidget {
         child: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             if (state is LoadedAppState) {
-              emailController.text = state.user?.user_email ?? '';
-              nameController.text = state.user?.user_display_name ?? '';
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -42,6 +39,7 @@ class UserDetailsWidget extends StatelessWidget {
                     controller: emailController,
                     hintText: state.user?.user_email ?? 'email',
                     label: 'Email',
+                    readOnly: true,
                   ),
                   const SizedBox(height: 20),
                   BorderCustomTextField(

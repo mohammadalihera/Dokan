@@ -7,12 +7,14 @@ class BorderCustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hintText;
+  final bool readOnly;
 
   const BorderCustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.label,
+    this.readOnly = false,
   });
 
   @override
@@ -29,6 +31,7 @@ class BorderCustomTextField extends StatelessWidget {
           height: 55,
           child: TextFormField(
             controller: controller,
+            readOnly: readOnly,
             decoration: InputDecoration(
               hintText: hintText,
               border: OutlineInputBorder(
