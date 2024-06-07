@@ -146,6 +146,18 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 30),
+                      Container(
+                        child: TextButton(
+                          onPressed: () {
+                            _navigationService.navigateToAndClearAll(RouteTo.dashbaord);
+                          },
+                          child: Text(
+                            'Login As Guest',
+                            style: regularTextStyle.copyWith(color: darkGrey),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 )
