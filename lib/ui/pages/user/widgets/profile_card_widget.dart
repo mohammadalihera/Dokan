@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:product_show_case/ui/theme/colors.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
 import 'package:product_show_case/ui/widgets/index.dart';
@@ -36,6 +37,7 @@ class ProfileCard extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 20, right: 18),
                   child: CommonImageView(
                     svgPath: icon,
+                    color: hintColor,
                     height: 24,
                   ),
                 ),

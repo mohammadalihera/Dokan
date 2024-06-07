@@ -16,4 +16,5 @@ class ImagePath {
   static String demoProfile = "assets/img/demo_profile.png";
   static String notification = "assets/img/notification.svg";
   static String heart = "assets/img/heart.svg";
+  static String logout = "assets/img/logout.svg";
 }

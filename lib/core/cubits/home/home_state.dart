@@ -13,10 +13,36 @@ final class HomeLoadingState extends HomeState {}
 
 final class HomeLoadedState extends HomeState {
   List<Product> productList;
-  HomeLoadedState({required this.productList});
+  bool newProduct;
+  bool oldProduct;
+  bool bestSale;
+  bool highLow;
+  bool lowHigh;
+  HomeLoadedState({
+    required this.productList,
+    this.bestSale = false,
+    this.newProduct = false,
+    this.oldProduct = false,
+    this.highLow = false,
+    this.lowHigh = false,
+  });
 
-  HomeLoadedState copyWith({List<Product>? productList}) {
-    return HomeLoadedState(productList: productList ?? this.productList);
+  HomeLoadedState copyWith({
+    List<Product>? productList,
+    bool? newProduct,
+    bool? oldProduct,
+    bool? bestSale,
+    bool? highLow,
+    bool? lowHigh,
+  }) {
+    return HomeLoadedState(
+      productList: productList ?? this.productList,
+      newProduct: newProduct ?? this.newProduct,
+      oldProduct: oldProduct ?? this.oldProduct,
+      bestSale: bestSale ?? this.bestSale,
+      highLow: highLow ?? this.highLow,
+      lowHigh: lowHigh ?? this.lowHigh,
+    );
   }
 
   @override

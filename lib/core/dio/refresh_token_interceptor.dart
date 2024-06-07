@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-import 'package:http/http.dart' as http;
 import 'package:product_show_case/core/cubits/auth/auth_cubit.dart';
 import 'package:product_show_case/core/services/navigation_service.dart';
 import 'package:product_show_case/core/services/service_locator.dart';
 
 import 'package:product_show_case/core/utils/db/shared_preference_helper.dart';
 import 'package:product_show_case/core/utils/network_connections.dart';
+import 'package:product_show_case/dokan_app.dart';
 
 class RefreshTokenInterceptor extends InterceptorsWrapper {
   final Dio dioClient;
@@ -22,10 +21,6 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     NetworkConnection.checkConnection();
     String? token = SharedPreferenceHelper.getUserToken();
-
-    if (token != null) {
-      options.headers["Authorization"] = "Bearer $token";
-    }
 
     options.validateStatus = (status) {
       if (status == 400 || status == 401 || status == 404) {
@@ -46,46 +41,20 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
 
   @override
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
+    if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       String refreshToken = SharedPreferenceHelper.getUserToken() ?? '';
       bool refreshTokenExpired = isTokenExpired(refreshToken);
 
       if (refreshTokenExpired) {
         BlocProvider.of<AuthCubit>(_navigationService.navigatorKey.currentContext!).logout();
       } else {
-        final updatedToken = await updateToken(refreshToken: refreshToken);
-        if (updatedToken != null) {
-          final response = await _retry(err.requestOptions, updatedToken);
-          if (response != null) {
-            return handler.resolve(response);
-          }
-        }
+        final response = await _retry(err.requestOptions, refreshToken);
+        return handler.resolve(response!);
       }
     } else {
-      return handler.resolve(err.response!);
+      DokanApp.scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(content: Text(err.response?.data['message'])));
     }
     return handler.next(err);
-  }
-
-  Future<String?> updateToken({required String refreshToken}) async {
-    try {
-      var response =
-          await http.post(Uri.parse(FlavorConfig.instance.variables['baseUrl'] + '/api/account/refresh-token'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; application/x-www-form-urlencoded',
-              },
-              body: jsonEncode(<String, String>{"refresh_token": refreshToken}));
-
-      if (response.statusCode >= 201 && response.statusCode <= 205) {
-        final data = jsonDecode(response.body);
-        String updatedToken = data['data']['token'];
-        await SharedPreferenceHelper.setUserToken(updatedToken);
-        return updatedToken;
-      }
-      return null;
-    } catch (error) {
-      return null;
-    }
   }
 
   Future<Response<dynamic>?> _retry(RequestOptions requestOptions, String updatedToken) async {

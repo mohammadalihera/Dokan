@@ -14,6 +14,7 @@ import 'ui/theme/thems.dart';
 
 class DokanApp extends StatelessWidget {
   const DokanApp({super.key});
+  static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class DokanApp extends StatelessWidget {
             navigatorKey: serviceLocator<NavigationService>().navigatorKey,
             title: 'Dokan',
             theme: Themes.jhLight,
+            color: Colors.white,
             onGenerateRoute: RouteTo.generateRoute,
             home: state is LoadedAppState && state.isLoggedIn ? const Dashboard() : const LoginPage(),
           );

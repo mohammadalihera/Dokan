@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:product_show_case/core/cubits/app/app_cubit.dart';
 import 'package:product_show_case/core/model/user/user_data.dart';
 import 'package:product_show_case/core/model/registration/registration_data.dart';
@@ -71,7 +72,7 @@ class AuthCubit extends Cubit<AuthState> {
         username: username,
       );
 
-      if (loginData != null && loginData.token != null) {
+      if (loginData != null && loginData.token != null && loginData.token!.isNotEmpty) {
         await SharedPreferenceHelper.setUserToken(loginData.token);
         await SharedPreferenceHelper.setCurrentUser(loginData);
 
@@ -95,6 +96,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> updateUser({
     required String name,
+    required BuildContext context,
   }) async {
     try {
       bool hasConnection = await NetworkConnection.checkConnection();
@@ -118,14 +120,16 @@ class AuthCubit extends Cubit<AuthState> {
         updatedUserData.token = userData?.token;
 
         await SharedPreferenceHelper.setCurrentUser(updatedUserData);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Update Success')));
 
         appCubit.loadApp();
-
         emit(UpdateUserSuccessState(message: 'Update Success'));
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Update Failed')));
         emit(UpdateUserFailedState(message: 'Update Failed'));
       }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Update Failed')));
       emit(UpdateUserFailedState(message: 'Update Failed'));
     }
   }

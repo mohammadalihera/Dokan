@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:product_show_case/core/cubits/app/app_cubit.dart';
 import 'package:product_show_case/core/cubits/home/home_cubit.dart';
 import 'package:product_show_case/ui/theme/colors.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
@@ -19,6 +20,21 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
   bool priceLowHigh = false;
   bool priceHighLow = false;
   bool bestSelling = false;
+  bool all = true;
+
+  @override
+  void initState() {
+    final homeState = context.read<HomeCubit>().state;
+    if (homeState is HomeLoadedState) {
+      newest = homeState.newProduct;
+      oldest = homeState.oldProduct;
+      priceHighLow = homeState.highLow;
+      priceLowHigh = homeState.lowHigh;
+      bestSelling = homeState.bestSale;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +76,27 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             ),
           ),
           CustomCheckBoxTile(
+            label: 'All',
+            value: all,
+            onChanged: (newValue) {
+              setState(() {
+                all = newValue ?? all;
+                if (all) {
+                  newest = false;
+                  oldest = false;
+                  priceHighLow = false;
+                  priceLowHigh = false;
+                  bestSelling = false;
+                }
+              });
+            },
+          ),
+          CustomCheckBoxTile(
             label: 'Newest',
             value: newest,
             onChanged: (newValue) {
               setState(() {
+                all = false;
                 newest = newValue ?? newest;
                 if (newest) oldest = false;
               });
@@ -74,6 +107,7 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
             value: oldest,
             onChanged: (newValue) {
               setState(() {
+                all = false;
                 oldest = newValue ?? oldest;
                 if (oldest) {
                   newest = false;
