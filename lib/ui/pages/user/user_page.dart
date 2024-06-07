@@ -139,6 +139,15 @@ class _UserPageState extends State<UserPage> {
                       open: false,
                       onTap: () {},
                     ),
+                    const CommonBorder(),
+                    ProfileCard(
+                      label: 'Logout',
+                      icon: ImagePath.logout,
+                      open: false,
+                      onTap: () {
+                        context.read<AuthCubit>().logout();
+                      },
+                    ),
                   ],
                 ),
               ),

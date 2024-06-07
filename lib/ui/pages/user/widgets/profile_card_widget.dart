@@ -36,6 +36,7 @@ class ProfileCard extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 20, right: 18),
                   child: CommonImageView(
                     svgPath: icon,
+                    color: hintColor,
                     height: 24,
                   ),
                 ),
