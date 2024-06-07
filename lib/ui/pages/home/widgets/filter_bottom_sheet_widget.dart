@@ -75,106 +75,113 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
               ],
             ),
           ),
-          CustomCheckBoxTile(
-            label: 'All',
-            value: all,
-            onChanged: (newValue) {
-              setState(() {
-                all = newValue ?? all;
-                if (all) {
-                  newest = false;
-                  oldest = false;
-                  priceHighLow = false;
-                  priceLowHigh = false;
-                  bestSelling = false;
-                }
-              });
-            },
-          ),
-          CustomCheckBoxTile(
-            label: 'Newest',
-            value: newest,
-            onChanged: (newValue) {
-              setState(() {
-                all = false;
-                newest = newValue ?? newest;
-                if (newest) oldest = false;
-              });
-            },
-          ),
-          CustomCheckBoxTile(
-            label: 'Oldest',
-            value: oldest,
-            onChanged: (newValue) {
-              setState(() {
-                all = false;
-                oldest = newValue ?? oldest;
-                if (oldest) {
-                  newest = false;
-                }
-              });
-            },
-          ),
-          CustomCheckBoxTile(
-            label: 'Price low> high',
-            value: priceLowHigh,
-            onChanged: (newValue) {
-              setState(() {
-                priceLowHigh = newValue ?? priceLowHigh;
-                if (priceLowHigh) {
-                  priceHighLow = false;
-                }
-              });
-            },
-          ),
-          CustomCheckBoxTile(
-            label: 'Price high> low',
-            value: priceHighLow,
-            onChanged: (newValue) {
-              setState(() {
-                priceHighLow = newValue ?? priceHighLow;
-                if (priceHighLow) {
-                  priceLowHigh = false;
-                }
-              });
-            },
-          ),
-          CustomCheckBoxTile(
-            label: 'Best selling',
-            value: bestSelling,
-            onChanged: (newValue) {
-              setState(() {
-                bestSelling = newValue ?? bestSelling;
-              });
-            },
-          ),
-          // Add more checkboxes as needed
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const CustomCancelButton(),
-              SizedBox(
-                width: 155,
-                height: 61,
-                child: ElevatedButton(
-                  style: Themes.filledButtonStyle(secondaryColor),
-                  onPressed: () {
-                    context.read<HomeCubit>().getFilterProducts(
-                          newProduct: newest,
-                          oldProduct: oldest,
-                          highLow: priceHighLow,
-                          lowHigh: priceLowHigh,
-                          bestSale: bestSelling,
-                        );
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Apply'),
-                ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomCheckBoxTile(
+                    label: 'All',
+                    value: all,
+                    onChanged: (newValue) {
+                      setState(() {
+                        all = newValue ?? all;
+                        if (all) {
+                          newest = false;
+                          oldest = false;
+                          priceHighLow = false;
+                          priceLowHigh = false;
+                          bestSelling = false;
+                        }
+                      });
+                    },
+                  ),
+                  CustomCheckBoxTile(
+                    label: 'Newest',
+                    value: newest,
+                    onChanged: (newValue) {
+                      setState(() {
+                        all = false;
+                        newest = newValue ?? newest;
+                        if (newest) oldest = false;
+                      });
+                    },
+                  ),
+                  CustomCheckBoxTile(
+                    label: 'Oldest',
+                    value: oldest,
+                    onChanged: (newValue) {
+                      setState(() {
+                        all = false;
+                        oldest = newValue ?? oldest;
+                        if (oldest) {
+                          newest = false;
+                        }
+                      });
+                    },
+                  ),
+                  CustomCheckBoxTile(
+                    label: 'Price low> high',
+                    value: priceLowHigh,
+                    onChanged: (newValue) {
+                      setState(() {
+                        priceLowHigh = newValue ?? priceLowHigh;
+                        if (priceLowHigh) {
+                          priceHighLow = false;
+                        }
+                      });
+                    },
+                  ),
+                  CustomCheckBoxTile(
+                    label: 'Price high> low',
+                    value: priceHighLow,
+                    onChanged: (newValue) {
+                      setState(() {
+                        priceHighLow = newValue ?? priceHighLow;
+                        if (priceHighLow) {
+                          priceLowHigh = false;
+                        }
+                      });
+                    },
+                  ),
+                  CustomCheckBoxTile(
+                    label: 'Best selling',
+                    value: bestSelling,
+                    onChanged: (newValue) {
+                      setState(() {
+                        bestSelling = newValue ?? bestSelling;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const CustomCancelButton(),
+                      SizedBox(
+                        width: 155,
+                        height: 61,
+                        child: ElevatedButton(
+                          style: Themes.filledButtonStyle(secondaryColor),
+                          onPressed: () {
+                            context.read<HomeCubit>().getFilterProducts(
+                                  newProduct: newest,
+                                  oldProduct: oldest,
+                                  highLow: priceHighLow,
+                                  lowHigh: priceLowHigh,
+                                  bestSale: bestSelling,
+                                );
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Apply'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
-            ],
+            ),
           ),
-          const SizedBox(height: 16),
         ],
       ),
     );
