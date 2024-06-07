@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:product_show_case/ui/theme/colors.dart';
 import 'package:product_show_case/ui/theme/text_style.dart';
 import 'package:product_show_case/ui/widgets/index.dart';

@@ -90,7 +90,9 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                             isLoading = true;
                           });
 
-                          await context.read<AuthCubit>().updateUser(name: widget.nameController.text);
+                          await context
+                              .read<AuthCubit>()
+                              .updateUser(name: widget.nameController.text, context: context);
 
                           setState(() {
                             isLoading = false;

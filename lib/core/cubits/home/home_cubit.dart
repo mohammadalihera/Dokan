@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:product_show_case/core/dao/product_dao.dart';
 import 'package:product_show_case/core/model/product/product.dart';
 import 'package:product_show_case/core/model/product/products.dart';
-
 import 'package:product_show_case/core/repository/product_repository.dart';
 
 part 'home_state.dart';
@@ -43,7 +43,14 @@ class HomeCubit extends Cubit<HomeState> {
           lowHigh: lowHigh,
           highLow: highLow,
         );
-        currentState.copyWith(productList: products);
+        currentState.copyWith(
+          productList: products,
+          newProduct: newProduct,
+          oldProduct: oldProduct,
+          bestSale: bestSale,
+          lowHigh: lowHigh,
+          highLow: highLow,
+        );
       } else {}
       Products? products = await productRepository.getProductList();
       List<Product>? productList = products?.products?.toList();
@@ -55,9 +62,23 @@ class HomeCubit extends Cubit<HomeState> {
         lowHigh: lowHigh,
         highLow: highLow,
       );
-      emit(HomeLoadedState(productList: productList ?? []));
+      emit(HomeLoadedState(
+        productList: productList ?? [],
+        newProduct: newProduct,
+        oldProduct: oldProduct,
+        bestSale: bestSale,
+        lowHigh: lowHigh,
+        highLow: highLow,
+      ));
     } catch (e) {
-      emit(HomeLoadedState(productList: const []));
+      emit(HomeLoadedState(
+        productList: const [],
+        newProduct: newProduct,
+        oldProduct: oldProduct,
+        bestSale: bestSale,
+        lowHigh: lowHigh,
+        highLow: highLow,
+      ));
     }
   }
 
@@ -75,7 +96,7 @@ class HomeCubit extends Cubit<HomeState> {
           lowHigh: lowHigh,
           highLow: highLow,
         );
-        currentState.copyWith(productList: products);
+        currentState.copyWith(productList: products, lowHigh: lowHigh, highLow: highLow);
       } else {}
       Products? products = await productRepository.getProductList();
       List<Product>? productList = products?.products?.toList();
@@ -84,9 +105,9 @@ class HomeCubit extends Cubit<HomeState> {
         lowHigh: lowHigh,
         highLow: highLow,
       );
-      emit(HomeLoadedState(productList: productList ?? []));
+      emit(HomeLoadedState(productList: productList ?? [], lowHigh: lowHigh, highLow: highLow));
     } catch (e) {
-      emit(HomeLoadedState(productList: const []));
+      emit(HomeLoadedState(productList: const [], lowHigh: lowHigh, highLow: highLow));
     }
   }
 }

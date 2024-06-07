@@ -14,6 +14,7 @@ import 'ui/theme/thems.dart';
 
 class DokanApp extends StatelessWidget {
   const DokanApp({super.key});
+  static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
